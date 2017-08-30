@@ -4,6 +4,8 @@ import Goods from '@/components/goods/goods';
 import Ratings from '@/components/ratings/ratings';
 import Seller from '@/components/seller/seller';
 
+import '../common/stylus/index.styl';
+
 Vue.use(Router);
 
 export default new Router({
@@ -25,3 +27,4 @@ export default new Router({
     }
   ]
 });
+

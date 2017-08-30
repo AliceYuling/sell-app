@@ -42,6 +42,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        include: [resolve('src')],
         options: vueLoaderConfig
       },
       
@@ -76,7 +77,8 @@ module.exports = {
       },
       {
         test: /\.styl$/,
-        loader: 'style-loader!css-loader!stylus-loader'
+        loader: 'style-loader!css-loader!stylus-loader!vue-style-loader',
+        include: [resolve('src')]
       }
     ]
   }
