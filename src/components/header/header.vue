@@ -32,9 +32,29 @@
 
     <div class="detail" v-show="detailShow">
       <div class="detail-wrapper clearfix">
-      	<div class="detail-main">
-      	  <h1 class="name">{{seller.name}}</h1>
-      	</div>
+        <div class="detail-main">
+          <h1 class="name">{{seller.name}}</h1>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家信息</div>
+            <div class="line"></div>
+          </div>
+          <ul v-if="seller.supports" class="supports">
+            <li v-for="item in seller.supports" class="support-item">
+              <span class="support-icon" :class="classMap[item.type]">
+              </span>
+              <span class="support-text">{{item.description}}</span>
+            </li>
+          </ul>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家公告</div>
+            <div class="line"></div>
+          </div>
+          <div class="bulletin">
+            <p class="bulletin-text">{{seller.bulletin}}</p>
+          </div>
+        </div>
       </div>
       <div class="detail-close" @click="hideDetail">
         <i class="icon-close">&times;</i>
@@ -80,6 +100,7 @@
     position: relative
     overflow: hidden
     color: #fff
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .content-wrapper
       position: relative
       padding: 24px 12px 18px 24px
@@ -125,7 +146,7 @@
               bg-image('decrease_1')
             &.discount
               bg-image('discount_1')
-            &.invoice_1
+            &.invoice
               bg-image('invoice_1')
             &.special
               bg-image('special_1')
@@ -215,6 +236,57 @@
           	text-align: center
           	font-size: 16px
           	font-weight: 700
+          .title
+            display: flex
+            width: 80%
+            margin: 28px auto 24px auto
+            .line
+              flex: 1
+              position: relative
+              top: -6px
+              border-bottom: 1px solid rgba(255,255,255,0.2)
+            .text
+              padding: 0 12px
+              font-size: 14px
+          .supports
+            width: 80%
+            margin: 0 auto
+            .support-item
+              list-style: none
+              height: 16px
+              padding: 0 12px 0 12px
+              margin-bottom: 12px
+              &:last-child
+                margin-bottom: 0  
+            .support-icon
+              display: inline-block
+              width: 16px
+              height: 16px
+              background-size: 16px 16px
+              background-repeat: no-repeat
+              &.decrease
+                bg-image('decrease_1')
+              &.discount
+                bg-image('discount_1')
+              &.invoice
+                bg-image('invoice_1')
+              &.special
+                bg-image('special_1')
+              &.guarantee
+                bg-image('guarantee_1')
+            .support-text
+              line-height: 16px
+              vertical-align: top
+              font-size: 12px
+              font-weight: 200
+          .bulletin
+            width: 80%
+            margin: 0 auto
+            .bulletin-text
+              padding: 0 12px
+              line-height: 24px
+              font-size: 12px
+              font-weight: 200
       &.clearfix
         display: inline-block
         &: after
