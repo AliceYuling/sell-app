@@ -34,6 +34,11 @@
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
+          
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score"></star>
+          </div>
+          
           <div class="title">
             <div class="line"></div>
             <div class="text">商家信息</div>
@@ -46,6 +51,7 @@
               <span class="support-text">{{item.description}}</span>
             </li>
           </ul>
+
           <div class="title">
             <div class="line"></div>
             <div class="text">商家公告</div>
@@ -64,7 +70,8 @@
 </template>
 
 <script>
-  export default{
+  import star from '../star/star';
+  export default {
     props: {
       seller: {
         type: Object
@@ -88,18 +95,17 @@
       }
     },
     components: {
-      name: 'header'
+      star
     }
   };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixin.styl'
-  // @import '../../common/stylus/icon.styl'
+  // @import '../../common/stylus/sellicon.styl'
   .header
     position: relative
     overflow: hidden
-    color: #fff
     font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .content-wrapper
       position: relative
@@ -113,7 +119,6 @@
       .content
         display: inline-block
         margin-left: 16px
-        font-family: arial
         .title
           margin: 2px 0 8px 0
           .brand
@@ -222,20 +227,25 @@
       height: 100%
       z-index: 100
       overflow: auto
-      background: rgba(7,17,27,0.8)
-      backdrop-filter: blur(10px)
       opacity: 1
+      backdrop-filter: blur(10px)
+      background: rgba(7,17,27,0.8)
       .detail-wrapper
-         min-height: 100%
-         width: 100%
-         .detail-main
+        min-height: 100%
+        width: 100%
+        .detail-main
           margin-top: 64px
           padding-bottom: 64px 
           .name
-          	line-height: 16px
-          	text-align: center
-          	font-size: 16px
-          	font-weight: 700
+            line-height: 16px
+            text-align: center
+            font-size: 16px
+            font-weight: 700
+          .star-wrapper
+            height: 24px
+            margin-top:18px
+            padding: 2px 0
+            text-align: center
           .title
             display: flex
             width: 80%
