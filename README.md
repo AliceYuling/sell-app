@@ -1,6 +1,7 @@
 # sell
 
-> food sell app
+>基于Vue.js的外卖APP
+仿饿了么商品详情模块
 
 ## Build Setup
 
