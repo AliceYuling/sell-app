@@ -11,10 +11,10 @@
     </div>
     <div class="food-wrapper" ref="foodWrapper">
       <ul>
-        <li v-for="item in goods" class="food-list food-list-hook">
+        <li v-for="(item,index) in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item">
+            <li v-for="(food,index) in item.foods" class="food-item">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon">
               </div>
@@ -28,16 +28,22 @@
                   <span class="current-price">￥{{food.price}}</span><span v-show="food.oldPrice" class="old-price">￥{{food.oldPrice}}</span>
                 </div>
               </div>
+              <div class="cartcontrol-wrapper">
+                <cartcontrol :food="food"></cartcontrol>
+              </div> 
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <foodcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectedFoods="selectedFoods"></foodcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
+  import foodcart from '../foodcart/foodcart';
+  import cartcontrol from '../cartcontrol/cartcontrol';
   const ERR_OK = 0;
 
   export default {
@@ -51,8 +57,18 @@
         goods: [],
         classMap: [],
         scrollY: 0,
-        listHeight: []
+        listHeight: [],
+        selectedFoods: [
+          {
+            count: 0,
+            price: 10
+          }
+        ]
       };
+    },
+    components: {
+      foodcart,
+      cartcontrol
     },
     created: function () {
       this.classMap = ['decrease', 'discount', 'special'];
@@ -179,6 +195,7 @@
           color: rgb(147,153,159)
         .food-item
           display: flex
+          position: relative
           margin: 18px 18px 0 18px
           border-bottom: 1px solid rgba(7,1,27,0.1)
           padding-bottom: 18px
@@ -223,4 +240,10 @@
                 font-size: 10px
                 font-weight: 700
                 color: rgb(147,153,159)
+          .cartcontrol-wrapper
+            position: absolute
+            right: 18px 
+            bottom: 12px         
+    .foodcart
+      position: fixed
 </style>
