@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul> 
-        <li class="menu-item" v-for="item in goods">
+        <li class="menu-item" v-for="(item,index) in goods" :class="{'current':listIndex===index}" @click="selectMenu(index,$event)">
           <span class="text">
             <span class="menu-icon" :class="classMap[item.type]" v-show="item.type>0"></span>{{item.name}}
           </span>
@@ -11,7 +11,7 @@
     </div>
     <div class="food-wrapper" ref="foodWrapper">
       <ul>
-        <li class="food-list" v-for="item in goods">
+        <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
             <li v-for="food in item.foods" class="food-item">
@@ -50,7 +50,8 @@
       return {
         goods: [],
         classMap: [],
-        scrollY: 0
+        scrollY: 0,
+        listHeight: []
       };
     },
     created: function () {
@@ -61,6 +62,7 @@
           this.goods = res.data;
           this.$nextTick(() => {
             this._initScroll();
+            this._calHeight();
           });
         }
       });
@@ -71,13 +73,44 @@
           click: true
         });
         this.foodScroll = new BScroll(this.$refs.foodWrapper, {
-          click: true
+          click: true,
+          probeType: 3
         });
         this.foodScroll.on('scroll', (pos) => {
           if (pos.y <= 0) {
             this.scrollY = Math.abs(Math.round(pos.y));
           }
         });
+      },
+      _calHeight () {
+        var foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
+        let height = 0;
+        this.listHeight.push(height);
+        for (let i = 0; i < foodList.length; i++) {
+          let listItem = foodList[i];
+          height += listItem.clientHeight;
+          this.listHeight.push(height);
+        }
+      },
+      selectMenu (index, event) {
+        var foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
+        if (!event._constructed) {                   // 阻止浏览器原生点击事件
+          return false;
+        }
+        // console.log(index);
+        this.foodScroll.scrollToElement(foodList[index], 300);     // 滚动到相应元素位置
+      }
+    },
+    computed: {
+      listIndex () {
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let currentHeight = this.listHeight[i];
+          let nextHeight = this.listHeight[i + 1];
+          if (!nextHeight || (this.scrollY >= currentHeight && this.scrollY < nextHeight)) {
+            return i;
+          }
+          // return 0;
+        }
       }
     }
   };
@@ -106,8 +139,15 @@
         width: 56px
         padding: 0 12px
         line-height: 14px
-        // border: 1px solid rgba(7,17,27,0.5)
+        border-bottom: 1px solid rgba(7,17,27,0.1)
         list-style: none  
+        &.current
+          positon: relative
+          z-index: 99
+          margin-top: -1px
+          background: #FFF
+          font-weight: bold
+          border-bottom: none
         .text
           display: table-cell
           width: 56px

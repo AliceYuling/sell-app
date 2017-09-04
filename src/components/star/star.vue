@@ -23,7 +23,6 @@
       itemClasses: function () {
         let result = [];
         let onCount = Math.floor(this.score);
-        console.log(onCount);
         for (let i = 0; i < onCount; i++) {
           result.push(STAR_ON);
         }
