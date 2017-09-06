@@ -1,8 +1,10 @@
 <template>
   <div class="cart-control">
-    <div class="cart-decrease" v-show="food.count>0" @click="cartDecrease($event)">-</div>
-    <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-    <div class="cart-increase" @click="cartIncrease($event)">+</div>
+    <transition name="move">
+      <div class="cart-decrease" v-show="food.count>0" @click="cartDecrease($event)"><span class="inner">-</span></div>
+    </transition>
+      <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
+      <div class="cart-increase" @click="cartIncrease($event)">+</div>
   </div>
 </template>
 
@@ -26,13 +28,16 @@
           Vue.set(this.food, 'count', 1);
         } else {
           this.food.count += 1;
+          console.log(this.food);
         }
+        // this.$emit('addFood', event.target);
       },
       cartDecrease (event) {
         if (!event._constructed) {
           return false;
         }
         this.food.count -= 1;
+        console.log(this.food);
       }
     }
   };
@@ -51,9 +56,22 @@
       border-radius: 50%
       background: #fff
       text-align: center
-      font-size: 24px
-      font-weight: 700
-      color: rgb(0,160,220)
+      transform: translate3d(0,0,0)
+      transition: all 0.3s linear
+      &.move-enter-active,&.move-leave-active
+        transition: all 0.3s linear
+      &.move-enter, &.move-leave-to
+        opacity: 0
+      .inner
+        font-size: 24px
+        font-weight: 700
+        color: rgb(0,160,220)
+        transition: all 0.3s linear
+        transform: translate3d(0,0,0)
+        &.move-enter-active,&.move-leave-active
+          transition: all 0.3s linear
+        &.move-enter, &.move-leave-to
+          opacity: 0
     .cart-count
       display: inline-block
       width: 24px

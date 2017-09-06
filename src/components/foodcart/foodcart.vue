@@ -26,8 +26,24 @@
   export default {
     data () {
       return {
-        title: 'foodcart',
-        payEnough: 0
+        balls: [
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          }
+        ],
+        dropBalls: []
       };
     },
     props: {
@@ -43,7 +59,7 @@
           return [
             {
               price: 10,
-              count: 2
+              count: 1
             }
           ];
         }
@@ -53,7 +69,7 @@
       totalPrice () {
         let total = 0;
         this.selectedFoods.forEach((food) => {
-          console.log(food.count, food.price);
+          console.log('food count:' + food.count + 'food price:' + food.price);
           total += food.count * food.price;
         });
         console.log(total);
@@ -80,6 +96,20 @@
         }
       }
     }
+    /*
+    methods: {
+      drop (el) {
+        for (let i=0; i < this.balls.length; i++) {
+          let ball = this.balls[i];
+          if (!ball.show) {
+            ball.show = true;
+            ball.el = el;
+            this.dropBalls.push(ball);
+            return;
+          }
+        }
+      }
+    } */
   };
 </script>
 

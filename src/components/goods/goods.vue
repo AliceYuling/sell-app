@@ -29,14 +29,14 @@
                 </div>
               </div>
               <div class="cartcontrol-wrapper">
-                <cartcontrol :food="food"></cartcontrol>
+                <cartcontrol :food="food" @click="addFood"></cartcontrol>
               </div> 
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <foodcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectedFoods="selectedFoods"></foodcart>
+    <foodcart ref="foodcart" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectedFoods="selectedFoods"></foodcart>
   </div>
 </template>
 
@@ -57,13 +57,7 @@
         goods: [],
         classMap: [],
         scrollY: 0,
-        listHeight: [],
-        selectedFoods: [
-          {
-            count: 0,
-            price: 10
-          }
-        ]
+        listHeight: []
       };
     },
     components: {
@@ -115,6 +109,14 @@
         }
         // console.log(index);
         this.foodScroll.scrollToElement(foodList[index], 300);     // 滚动到相应元素位置
+      },
+      addFood (target) {
+        this._drop(target);
+      },
+      _drop (target) {
+        this.$nextTick(() => {
+          this.$refs.foodcart.drop(target);
+        });
       }
     },
     computed: {
@@ -127,6 +129,17 @@
           }
           // return 0;
         }
+      },
+      selectedFoods () {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count > 0) {
+              foods.push[food];
+            }
+          });
+        });
+        return foods;
       }
     }
   };
