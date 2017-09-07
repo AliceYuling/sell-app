@@ -29,7 +29,7 @@
                 </div>
               </div>
               <div class="cartcontrol-wrapper">
-                <cartcontrol :food="food" @click="addFood"></cartcontrol>
+                <cartcontrol :food="food"></cartcontrol>
               </div> 
             </li>
           </ul>
@@ -109,14 +109,6 @@
         }
         // console.log(index);
         this.foodScroll.scrollToElement(foodList[index], 300);     // 滚动到相应元素位置
-      },
-      addFood (target) {
-        this._drop(target);
-      },
-      _drop (target) {
-        this.$nextTick(() => {
-          this.$refs.foodcart.drop(target);
-        });
       }
     },
     computed: {
@@ -135,7 +127,7 @@
         this.goods.forEach((good) => {
           good.foods.forEach((food) => {
             if (food.count > 0) {
-              foods.push[food];
+              foods.push(food);
             }
           });
         });

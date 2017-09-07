@@ -28,8 +28,8 @@
           Vue.set(this.food, 'count', 1);
         } else {
           this.food.count += 1;
-          console.log(this.food);
         }
+        // console.log(this.food);
         // this.$emit('addFood', event.target);
       },
       cartDecrease (event) {
@@ -37,7 +37,7 @@
           return false;
         }
         this.food.count -= 1;
-        console.log(this.food);
+        // console.log(this.food);
       }
     }
   };
