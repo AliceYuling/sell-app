@@ -112,7 +112,6 @@
               this.scroll = new BScroll(this.$refs.listContent, {
                 click: true
               });
-              console.log('error1');
             } else {
               this.scroll.refresh();
             }

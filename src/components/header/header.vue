@@ -19,7 +19,7 @@
       </div>
       <div v-if="seller.supports" class="support-count" @click="showDetail">
         <span class="count">{{seller.supports.length}}个</span>
-        <i class="icon_keyboard_arrow_right"></i>
+        <i class="icon_keyboard_arrow_right">&#62</i>
       </div>
     </div>
     <div class="bulletin-wrapper" @click="showDetail">
@@ -58,7 +58,7 @@
             <div class="line"></div>
           </div>
           <div class="bulletin">
-            <p class="bulletin-text">{{seller.bulletin}}</p>
+            <p class="bulletin-text">{{seller.bulletin}}&gt;</p>
           </div>
         </div>
       </div>
@@ -218,7 +218,6 @@
       height: 100%
       z-index: -1
       filter: blur(10px)
-    
     .detail
       position: fixed
       top: 0
@@ -228,8 +227,8 @@
       z-index: 100
       overflow: auto
       opacity: 1
-      backdrop-filter: blur(10px)
       background: rgba(7,17,27,0.8)
+      backdrop-filter: blur(10px)
       .detail-wrapper
         min-height: 100%
         width: 100%
