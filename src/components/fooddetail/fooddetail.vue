@@ -1,5 +1,5 @@
 <template>
-  <div class="food-detail" v-show="showFood" ref="foodDetail">
+  <div class="food" v-show="showFood" ref="foodDetail">
     <div class="image-header">
       <img class="image" :src="targetFood.image">
       <div class="back"><i class="back-icon" @click="hide()">返回</i></div>
@@ -11,24 +11,33 @@
         <span class="rating">好评率{{targetFood.rating}}%</span>
       </div>
       <div class="price">
-        <span class="cur-price">{{targetFood.price}}</span>
+        <span class="cur-price">￥{{targetFood.price}}</span>
         <span class="old-price" v-show="targetFood.oldPrice">{{targetFood.oldPrice}}</span>
       </div>
       <div class="add-cart">
-        <div class="add"></div>
-        <div class="cartcontrol-wrapper">
+        <div class="add" v-show="showButton" @click="addFirst($event)"><span>加入购物车</span></div>
+        <div class="cartcontrol-wrapper" v-show="!showButton">
           <cartcontrol :food="targetFood"></cartcontrol>
         </div>
       </div>
     </div>
-    <div class="introduction">
+    <split v-show="targetFood.info"></split>
+    <div class="introduction" v-show="targetFood.info">
+      <h1 class="title">商品介绍</h1>
+      <div class="info">{{targetFood.info}}</div>
+    </div>
+    <split></split>
+    <div class="ratings-wrapper">
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import cartcontrol from '../cartcontrol/cartcontrol';
+  import split from '../split/split';
+  import ratingcontrol from '../ratingcontrol/ratingcontrol';
   import BScroll from 'better-scroll';
+  import Vue from 'vue';
   export default {
     data () {
       return {
@@ -41,7 +50,9 @@
       }
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      split,
+      ratingcontrol
     },
     methods: {
       hide () {
@@ -58,13 +69,31 @@
             this.scroll.refresh();
           }
         });
+      },
+      addFirst (event) {
+        if (!event._constructed) {
+          return;
+        }
+        Vue.set(this.targetFood, 'count', 1);
+      }
+    },
+    computed: {
+      showButton () {
+        if (this.targetFood.count > 0) {
+          return false;
+        } else {
+          return true;
+        }
       }
     }
   };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .food-detail
+  *
+    margin: 0
+    padding: 0
+  .food
     position: fixed
     left: 0
     bottom: 48px
@@ -72,6 +101,7 @@
     height: 100%
     z-index: 98
     background: #fff
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .image-header
       position: relative
       top: 0
@@ -99,6 +129,7 @@
           font-weight: 700
           color: #fff
     .content
+      position: relative
       padding: 18px
       .title
         line-height: 14px
@@ -127,15 +158,35 @@
           font-weight: 700
           color: rgb(147,153,159) 
       .add-cart
-        position: relative
-        right: 18px
         .add
           position: absolute
-          right: 0
-          width: 148px
+          right: 18px
+          bottom: 18px
+          width: 74px
           height: 24px
-          
+          line-height: 24px
+          border-radius: 12px
+          background: rgb(0,140,220)
+          text-align: center
+          font-size: 10px
+          color: #fff
         .cartcontrol-wrapper
           position: absolute
-          right: 0
+          right: 18px
+          bottom: 18px
+    .introduction
+      width: 100%
+      padding: 18px
+      .title
+        margin-bottom: 6px
+        line-height: 14px
+        font-size: 14px
+        font-weight: 400
+        color: rgb(7,17,27)
+      .info
+        padding: 0 8px 0 8px
+        line-height: 24px
+        font-size: 12px
+        font-weight: 200
+        color: rgb(77,66,93)
 </style>
