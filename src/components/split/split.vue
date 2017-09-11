@@ -3,7 +3,7 @@
   </div>
 </template>
 
-<sctipt type="ecmascript-6">
+<sctipt type="text/ecmascript-6">
   export  default {};
 </sctipt>
 

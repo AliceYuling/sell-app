@@ -1,8 +1,8 @@
 <template>
-  <div class="food" v-show="showFood" ref="foodDetail">
+  <div class="food" v-show="showFood" ref="food">
     <div class="image-header">
       <img class="image" :src="targetFood.image">
-      <div class="back"><i class="back-icon" @click="hide()">返回</i></div>
+      <div class="back"><i class="back-icon" @click="hide()">&lt;</i></div>
     </div>
     <div class="content">
       <h1 class="title">{{targetFood.name}}</h1>
@@ -27,7 +27,26 @@
       <div class="info">{{targetFood.info}}</div>
     </div>
     <split></split>
-    <div class="ratings-wrapper">
+    <div class="ratings">
+      <h1 class="title">商品评价</h1>
+      <ratingcontrol :onlyContent="onlyContent" @toggle="toggle" :ratings="targetFood.ratings" :ratingChoose="ratingChoose" @switch="switchRating"></ratingcontrol>
+      <div class="ratings-wrapper">
+        <ul class="rating-list" v-show="targetFood.ratings && targetFood.ratings.length">
+          <li class="raitng-item" v-show="showItem(item.rateType, item.text)" v-for="item in targetFood.ratings">
+            <span class="time">{{item.rateTime | timeFilter}}</span>
+            <div class="user-info"> 
+              <span class="name">{{item.username}}</span>
+              <img class="avatar" :src="item.avatar" width="12" height="12"></span>
+            </div>
+            <div class="content">
+              <span class="text">{{item.text}}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="no-ratings" v-show="!targetFood.ratings || !targetFood.ratings.length">
+          <span class="no-rating-text">暂无评价</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,10 +57,15 @@
   import ratingcontrol from '../ratingcontrol/ratingcontrol';
   import BScroll from 'better-scroll';
   import Vue from 'vue';
+  import {formatDate} from '../../common/js/date.js';
+
+  const ALL = 2;
   export default {
     data () {
       return {
-        showFood: false
+        showFood: false,
+        onlyContent: true,
+        ratingChoose: ALL
       };
     },
     props: {
@@ -62,7 +86,7 @@
         this.showFood = true;
         this.$nextTick(() => {
           if (!this.scroll) {
-            this.scroll = new BScroll(this.$refs.foodDetail, {
+            this.scroll = new BScroll(this.$refs.food, {
               click: true
             });
           } else {
@@ -75,6 +99,26 @@
           return;
         }
         Vue.set(this.targetFood, 'count', 1);
+      },
+      toggle () {
+        this.onlyContent = !this.onlyContent;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
+      switchRating (type) {
+        this.ratingChoose = type;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
+      showItem (type, text) {
+        if (type === this.ratingChoose || this.ratingChoose === ALL) {
+          if ((this.onlyContent && text) || !this.onlyContent) {
+            return true;
+          }
+        }
+        return false;
       }
     },
     computed: {
@@ -84,6 +128,12 @@
         } else {
           return true;
         }
+      }
+    },
+    filters: {
+      timeFilter: function (time) {
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh-mm');
       }
     }
   };
@@ -96,16 +146,14 @@
   .food
     position: fixed
     left: 0
+    top: 0
     bottom: 48px
+    z-index: 30
     width: 100%
-    height: 100%
-    z-index: 98
     background: #fff
     font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .image-header
       position: relative
-      top: 0
-      left: 0
       width: 100%
       height: 0
       padding-bottom: 100%
@@ -118,9 +166,7 @@
          height: 100% 
       .back
         position: absolute
-        z-index:999
-        width: 100px
-        height: 100px
+        z-index: 999
         top: 10px
         left: 0
         .back-icon
@@ -189,4 +235,48 @@
         font-size: 12px
         font-weight: 200
         color: rgb(77,66,93)
+    .ratings
+      padding: 18px
+      .title
+        margin-bottom: 6px
+        line-height: 14px
+        font-size: 14px
+        font-weight: 400
+        color: rgb(7,17,27)
+      .ratings-wrapper
+        border-top: 1px solid rgba(7,17,27,0.1)
+        .rating-list
+          padding: 0 18px 0 18px
+          .raitng-item
+            position: relative
+            border-bottom: 1px solid rgba(7,17,27,0.1)
+            padding-top: 16px
+            list-style: none
+            font-size: 0
+            .time
+              display: inline-block
+              line-height: 12px
+              font-size: 10px
+              color: rgb(147,153,159) 
+            .user-info
+              position: absolute
+              right: 0
+              top: 16px
+              font-size: 0
+              .name
+                display: inline-block
+                margin-right: 6px
+                line-height: 12px
+                font-size: 10px
+                color: rgb(147,153,159) 
+              .avatar
+                border-radius: 50%
+            .content
+              line-height: 20px
+              font-size: 12px
+              color: rgb(147,153,159)   
+      .no-ratings
+        padding: 16px 0
+        font-size: 12px
+        color: rgba(77,85,93,0.2)
 </style>
