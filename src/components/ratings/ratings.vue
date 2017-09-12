@@ -27,6 +27,7 @@
 <script type="text/ecmascript-6">
   import split from '../split/split';
   import star from '../star/star';
+  // import ratingcontrol from '../ratingcontrol/ratingcontrol';
   export default{
     props: {
       seller: {
@@ -51,13 +52,16 @@
     font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .overview
       display: flex
-      padding: 18px
+      padding: 18px 0
       .overall-rating
         flex: 0 0 137px
         padding-bottom: 6px
         width: 137px
         border-right: 1px solid rgba(7,17,27,0.1)
         text-align: center
+        @media only screen and (max-width:320px)
+          flex: 0 0 115px
+          width: 115px
         .score
           line-height: 28px
           font-size: 24px
@@ -75,7 +79,11 @@
       .star-rating
         flex: 1
         padding-left: 24px
-        padding-right: 24px
+        padding-right: 0
+        @media only screen and (max-width:320px)
+          flex: 1
+          padding-left: 6px
+          padding-right: 6px
         .star-wrapper
           margin-bottom: 8px
           font-size: 0
@@ -94,6 +102,7 @@
             font-size: 12px
             color: rgb(255,153,0)
         .delivery-time
+          font-size: 0
           .title
             display: inline-block
             line-height: 28px
