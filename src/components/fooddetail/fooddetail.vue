@@ -29,7 +29,7 @@
     <split></split>
     <div class="ratings">
       <h1 class="title">商品评价</h1>
-      <ratingcontrol :onlyContent="onlyContent" @toggle="toggle" :ratings="targetFood.ratings" :ratingChoose="ratingChoose" @switch="switchRating"></ratingcontrol>
+      <ratingcontrol :onlyContent="onlyContent" @toggle="toggleContent" :ratings="targetFood.ratings" :ratingChoose="ratingChoose" @switch="switchRating"></ratingcontrol>
       <div class="ratings-wrapper">
         <ul class="rating-list" v-show="targetFood.ratings && targetFood.ratings.length">
           <li class="raitng-item" v-show="showItem(item.rateType, item.text)" v-for="item in targetFood.ratings">
@@ -100,7 +100,7 @@
         }
         Vue.set(this.targetFood, 'count', 1);
       },
-      toggle () {
+      toggleContent () {
         this.onlyContent = !this.onlyContent;
         this.$nextTick(() => {
           this.scroll.refresh();
@@ -161,12 +161,10 @@
          position: absolute
          top: 0
          left: 0
-         z-index: 120
          width: 100%
          height: 100% 
       .back
         position: absolute
-        z-index: 999
         top: 10px
         left: 0
         .back-icon
@@ -236,10 +234,11 @@
         font-weight: 200
         color: rgb(77,66,93)
     .ratings
-      padding: 18px
+      padding: 18px 18px 18px 0
       .title
         margin-bottom: 6px
         line-height: 14px
+        padding-left: 18px
         font-size: 14px
         font-weight: 400
         color: rgb(7,17,27)

@@ -80,6 +80,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .rating-control
     width: 100%
+    padding-left: 18px
     .rating-select
       padding: 12px 18px 18px 0
       border-bottom: 1px solid rgba(7,17,27,0.1)

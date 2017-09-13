@@ -1,5 +1,5 @@
 <template>
-  <div class="ratings">
+  <div class="ratings" ref="ratings">
     <div class="ratings-content">
       <div class="overview">
         <div class="overall-rating">
@@ -20,6 +20,31 @@
         </div>
       </div>
       <split></split>
+      <ratingcontrol :ratings="ratings" :onlyContent="onlyContent" :ratingChoose="ratingChoose" @switch="switchRating" @toggle="toggleContent"></ratingcontrol>
+      <div class="ratings-wrapper">
+        <ul class="rating-list" v-show="ratings && ratings.length">
+          <li class="raitng-item" v-show="showItem(rating.rateType, rating.text)" v-for="rating in ratings">
+            <span class="time">{{rating.rateTime | timeFilter}}</span>
+            <div class="user-info"> 
+              <span class="name">{{rating.username}}</span>
+              <img class="avatar" :src="rating.avatar" width="12" height="12"></span>
+            </div>
+            <div class="content">
+              <span class="text">{{rating.text}}</span>
+            </div>
+            <div class="recommend">
+              <ul class="recommend-list">
+                <li class="recommend-item" v-for="item in rating.recommend">
+                  <span class="text">{{item}}</span>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <div class="no-ratings" v-show="!ratings || !ratings.length">
+          <span class="no-rating-text">暂无评价</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,16 +52,72 @@
 <script type="text/ecmascript-6">
   import split from '../split/split';
   import star from '../star/star';
-  // import ratingcontrol from '../ratingcontrol/ratingcontrol';
+  import ratingcontrol from '../ratingcontrol/ratingcontrol';
+  import {formatDate} from '../../common/js/date.js';
+  import BScroll from 'better-scroll';
+  const ERR_OK = 0;
+  const ALL = 2;
   export default{
     props: {
       seller: {
         Type: Object
       }
     },
+    data () {
+      return {
+        ratings: [],
+        onlyContent: false,
+        ratingChoose: 0
+      };
+    },
     components: {
       split,
-      star
+      star,
+      ratingcontrol
+    },
+    created: function () {
+      this.$http.get('/api/ratings').then((res) => {
+        res = res.body;
+        if (res.errno === ERR_OK) {
+          this.ratings = res.data;
+          this.$nextTick(() => {
+            this._initScroll();
+          });
+        }
+      });
+    },
+    methods: {
+      _initScroll () {
+        this.scroll = new BScroll(this.$refs.ratings, {
+          click: true
+        });
+      },
+      switchRating (type) {
+        this.ratingChoose = type;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
+      toggleContent () {
+        this.onlyContent = !this.onlyContent;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
+      showItem (type, text) {
+        if (type === this.ratingChoose || this.ratingChoose === ALL) {
+          if ((this.onlyContent && text) || !this.onlyContent) {
+            return true;
+          }
+        }
+        return false;
+      }
+    },
+    filters: {
+      timeFilter: function (time) {
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh-mm');
+      }
     }
   };
 </script>
@@ -115,4 +196,63 @@
             line-height: 18px
             font-size: 12px
             color: rgb(147,153,159)
+    .ratings-wrapper
+      border-top: 1px solid rgba(7,17,27,0.1)
+      .rating-list
+        padding: 0 18px 0 18px
+        .raitng-item
+          position: relative
+          border-bottom: 1px solid rgba(7,17,27,0.1)
+          padding-top: 18px
+          padding-bottom: 18px
+          list-style: none
+          font-size: 0
+          .time
+            display: inline-block
+            line-height: 12px
+            font-size: 10px
+            color: rgb(147,153,159) 
+          .user-info
+            position: absolute
+            right: 0
+            top: 16px
+            font-size: 0
+            .name
+              display: inline-block
+              margin-right: 6px
+              line-height: 12px
+              font-size: 10px
+              color: rgb(147,153,159) 
+            .avatar
+              border-radius: 50%
+          .content
+            line-height: 20px
+            font-size: 12px
+            color: rgb(147,153,159)
+          .recommend
+            .recommend-list
+              padding-left: 6px
+              .recommend-item
+                display: inline-block
+                list-style: none
+                font-size: 0
+                .text
+                  display: inline-block
+                  margin-left: 8px
+                  margin-top: 8px
+                  max-width: 40px
+                  height: 24px
+                  line-height: 24px
+                  border: 1px solid rgba(7,17,27,0.1)
+                  border-radius: 2px
+                  padding: 0 6px 0 6px
+                  overflow: hidden
+                  text-overflow: ellipsis
+                  white-space: nowrap
+                  font-size: 9px
+                  color: rgb(147,153,159)
+    .no-ratings
+      padding: 16px 0
+      font-size: 12px
+      color: rgba(77,85,93,0.2)
 </style>

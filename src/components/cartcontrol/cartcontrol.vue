@@ -1,10 +1,10 @@
 <template>
   <div class="cart-control">
     <transition name="move">
-      <div class="cart-decrease" v-show="food.count>0" @click="cartDecrease($event)"><span class="inner">-</span></div>
+      <div class="cart-decrease" v-show="food.count>0" @click.stop.prevent="cartDecrease($event)"><span class="inner">-</span></div>
     </transition>
       <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-      <div class="cart-increase" @click="cartIncrease($event)">+</div>
+      <div class="cart-increase" @click.stop.prevent="cartIncrease($event)">+</div>
   </div>
 </template>
 
@@ -29,8 +29,6 @@
         } else {
           this.food.count += 1;
         }
-        // console.log(this.food);
-        // this.$emit('addFood', event.target);
       },
       cartDecrease (event) {
         if (!event._constructed) {
