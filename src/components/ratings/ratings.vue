@@ -226,6 +226,7 @@
             .avatar
               border-radius: 50%
           .content
+            margin-top:6px
             line-height: 20px
             font-size: 12px
             color: rgb(147,153,159)
