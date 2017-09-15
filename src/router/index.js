@@ -4,7 +4,7 @@ import Goods from '@/components/goods/goods';
 import Ratings from '@/components/ratings/ratings';
 import Seller from '@/components/seller/seller';
 import VueResource from 'vue-resource';
-// import '../common/stylus/index.styl';
+import '../common/stylus/index.styl';
 
 Vue.use(Router);
 Vue.use(VueResource);

@@ -32,8 +32,9 @@
             <div class="content">
               <span class="text">{{rating.text}}</span>
             </div>
-            <div class="recommend">
+            <div class="recommend" v-show="rating.recommend && rating.recommend.length">
               <ul class="recommend-list">
+                <i class="icon-thumb_up"></i>
                 <li class="recommend-item" v-for="item in rating.recommend">
                   <span class="text">{{item}}</span>
                 </li>
@@ -75,10 +76,11 @@
       star,
       ratingcontrol
     },
-    created: function () {
+    created () {
       this.$http.get('/api/ratings').then((res) => {
         res = res.body;
         if (res.errno === ERR_OK) {
+          console.log('hello');
           this.ratings = res.data;
           this.$nextTick(() => {
             this._initScroll();
@@ -88,9 +90,11 @@
     },
     methods: {
       _initScroll () {
+        console.log(this.$refs.ratings);
         this.scroll = new BScroll(this.$refs.ratings, {
           click: true
         });
+        console.log('haha');
       },
       switchRating (type) {
         this.ratingChoose = type;
@@ -233,17 +237,24 @@
           .recommend
             .recommend-list
               padding-left: 6px
+              .icon-thumb_up
+                margin-right: 8px
+                margin-top: 8px
+                vertical-align: middle
+                font-size: 12px
+                color: rgb(0,160,220)
               .recommend-item
                 display: inline-block
                 list-style: none
+                vertical-align: middle
                 font-size: 0
                 .text
                   display: inline-block
                   margin-left: 8px
                   margin-top: 8px
                   max-width: 40px
-                  height: 24px
-                  line-height: 24px
+                  height: 16px
+                  line-height: 16px
                   border: 1px solid rgba(7,17,27,0.1)
                   border-radius: 2px
                   padding: 0 6px 0 6px

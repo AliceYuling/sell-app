@@ -19,7 +19,7 @@
       </div>
       <div v-if="seller.supports" class="support-count" @click="showDetail">
         <span class="count">{{seller.supports.length}}个</span>
-        <i class="icon_keyboard_arrow_right">&#62</i>
+        <i class="icon-keyboard_arrow_right"></i>
       </div>
     </div>
     <div class="bulletin-wrapper" @click="showDetail">
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="detail-close" @click="hideDetail">
-        <i class="icon-close">&times;</i>
+        <i class="icon-close"></i>
       </div>
     </div>
   </div>
@@ -106,7 +106,6 @@
   .header
     position: relative
     overflow: hidden
-    font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
     .content-wrapper
       position: relative
       padding: 24px 12px 18px 24px
@@ -164,22 +163,20 @@
       .support-count
         position: absolute
         right: 12px
-        bottom: 18px
+        bottom: 14px
         padding: 0 8px 
         height: 24px
         line-height: 24px
-        border-radius: 7px
+        border-radius: 14px
         background: rgba(0,0,0,0.2)
         .count
           vertical-align: top
           font-size: 10px
           font-weight: 200
-        .icon_keyboard_arrow_right
+        .icon-keyboard_arrow_right
           margin-left: 2px
           line-height: 24px
           font-size: 10px
-          right: 12px
-          top: 8px
     .bulletin-wrapper
       position: relative  
       height: 28px
@@ -188,7 +185,7 @@
       overflow: hidden
       white-space: nowrap
       text-overflow: ellipsis
-      // font-size: 0
+      font-size: 0
       background: rgba(7,17,27,0.2)
       .bulletin-title
         display: inline-block
@@ -220,15 +217,15 @@
       filter: blur(10px)
     .detail
       position: fixed
+      z-index: 100
       top: 0
       left: 0
       width: 100%
       height: 100%
-      z-index: 100
       overflow: auto
+      backdrop-filter: blur(10px)
       opacity: 1
       background: rgba(7,17,27,0.8)
-      backdrop-filter: blur(10px)
       .detail-wrapper
         min-height: 100%
         width: 100%
@@ -311,10 +308,5 @@
         height: 32px
         margin: -64px auto 0 auto
         clear: both
-        font-size: 32px 
-        background: #000
-        border-radius: 50%
-        .icon-close
-          display: inline-block
-          margin: 0 4px      
+        font-size: 32px    
 </style>

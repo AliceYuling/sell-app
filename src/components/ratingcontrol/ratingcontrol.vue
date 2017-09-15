@@ -5,8 +5,8 @@
       <span class="rating-item positive" :class="{highlight:ratingChoose == ratingType.positive}" @click="switchRating(0, $event)">{{ratingDesc.positive}}&nbsp;{{positive.length}}</span>
       <span class="rating-item negative" :class="{highlight:ratingChoose == ratingType.negative}" @click="switchRating(1, $event)">{{ratingDesc.negative}}&nbsp;{{negative.length}}</span>
     </div>
-    <div class="switch">
-      <span class="icon-choose-content" :class="{active:onlyContent}" @click="toggleContent()"></span>
+    <div class="switch" :class="{active:onlyContent}" @click="toggleContent()">
+      <i class="icon-check_circle"></i>
       <span class="icon-text">只看有内容的评价</span>
     </div>
   </div>
@@ -110,21 +110,18 @@
             color: #fff
     .switch
       padding: 12px 0 12px 0
+      line-height: 24px
       font-size: 0
-      .icon-choose-content
-        display: inline-block
-        width: 20px
-        height: 20px
+      color: rgb(147,153,159)
+      &.active
+        .icon-check_circle
+          color: #00c850
+      .icon-check_circle
         margin-right: 4px
-        line-height: 24px
-        border-radius: 50%
-        background: rgb(147,153,159)
-        &.active
-          background: rgba(0,160,220,0.2)
+        vertical-align: middle
+        font-size: 24px
       .icon-text
         display: inline-block
-        line-height: 24px
-        vertical-align: top
-        font-size: 12px
-        color: rgb(147,153,159) 
+        vertical-align: middle
+        font-size: 12px  
 </style>

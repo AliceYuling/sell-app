@@ -3,7 +3,7 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
         <ul> 
-          <li class="menu-item" v-for="(item,index) in goods" :class="{'current':listIndex===index}" @click="selectMenu(index,$event)">
+          <li class="menu-item .border-1px" v-for="(item,index) in goods" :class="{'current':listIndex===index}" @click="selectMenu(index,$event)">
             <span class="text">
               <span class="menu-icon" :class="classMap[item.type]" v-show="item.type>0"></span>{{item.name}}
             </span>
@@ -12,7 +12,7 @@
       </div>
       <div class="food-wrapper" ref="foodWrapper">
         <ul>
-          <li v-for="item in goods" class="food-list food-list-hook">
+          <li v-for="item in goods" class="food-list food-list-hook border-1px">
             <h1 class="title">{{item.name}}</h1>
             <ul>
               <li v-for="food in item.foods" class="food-item" @click="showFoodDetail(food, $event)">
@@ -176,7 +176,7 @@
         width: 56px
         padding: 0 12px
         line-height: 14px
-        border-bottom: 1px solid rgba(7,17,27,0.1)
+        border-1px(rgba(7,17,27,0.1))
         list-style: none  
         &.current
           positon: relative
@@ -184,7 +184,7 @@
           margin-top: -1px
           background: #FFF
           font-weight: bold
-          border-bottom: none
+          border-none()
         .text
           display: table-cell
           width: 56px
@@ -218,10 +218,10 @@
           display: flex
           position: relative
           margin: 18px 18px 0 18px
-          border-bottom: 1px solid rgba(7,1,27,0.1)
           padding-bottom: 18px
+          border-1px(rgba(7,1,27,0.1))
           &.last-child
-            border-bottom: none
+            border-none()
             padding-bottom: 0
           .icon
             flex: 0 0 57px

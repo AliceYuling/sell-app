@@ -175,12 +175,13 @@
               &:last-child
                 border-right: none
               h2
+                margin-bottom: 4px
                 line-height: 10px
                 font-size: 10px
                 color: rgb(147,153,159)
               .content
                 font-size: 10px
-                color: rb(77,85,93)
+                color: rgb(77,85,93)
                 .num
                   line-height: 24px
                   font-size: 20px
