@@ -29,16 +29,13 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
-
     <div class="detail" v-show="detailShow">
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
-          
           <div class="star-wrapper">
             <star :size="48" :score="seller.score"></star>
           </div>
-          
           <div class="title">
             <div class="line"></div>
             <div class="text">商家信息</div>
@@ -51,14 +48,13 @@
               <span class="support-text">{{item.description}}</span>
             </li>
           </ul>
-
           <div class="title">
             <div class="line"></div>
             <div class="text">商家公告</div>
             <div class="line"></div>
           </div>
           <div class="bulletin">
-            <p class="bulletin-text">{{seller.bulletin}}&gt;</p>
+            <p class="bulletin-text">{{seller.bulletin}}</p>
           </div>
         </div>
       </div>
@@ -69,7 +65,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import star from '../star/star';
   export default {
     props: {
@@ -102,7 +98,6 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixin.styl'
-  // @import '../../common/stylus/sellicon.styl'
   .header
     position: relative
     overflow: hidden
@@ -141,7 +136,7 @@
           .icon
             display: inline-block
             vertical-align: top
-            width: 12px 
+            width: 12px
             height: 12px
             margin-right: 4px
             background-size: 12px 12px
@@ -159,12 +154,12 @@
           .text
             line-height: 12px
             font-size: 10px
-            font-weight: 200 
+            font-weight: 200
       .support-count
         position: absolute
         right: 12px
         bottom: 14px
-        padding: 0 8px 
+        padding: 0 8px
         height: 24px
         line-height: 24px
         border-radius: 14px
@@ -178,7 +173,7 @@
           line-height: 24px
           font-size: 10px
     .bulletin-wrapper
-      position: relative  
+      position: relative
       height: 28px
       line-height: 28px
       padding: 0 22px 0 12px
@@ -231,7 +226,7 @@
         width: 100%
         .detail-main
           margin-top: 64px
-          padding-bottom: 64px 
+          padding-bottom: 64px
           .name
             line-height: 16px
             text-align: center
@@ -263,7 +258,7 @@
               padding: 0 12px 0 12px
               margin-bottom: 12px
               &:last-child
-                margin-bottom: 0  
+                margin-bottom: 0
             .support-icon
               display: inline-block
               width: 16px
@@ -293,20 +288,11 @@
               line-height: 24px
               font-size: 12px
               font-weight: 200
-      &.clearfix
-        display: inline-block
-        &: after
-          display: inline-block
-          content: "."
-          height: 0
-          line-height: 0
-          clear: both
-          visibility: hidden
       .detail-close
         position: relative
         width: 32px
         height: 32px
         margin: -64px auto 0 auto
         clear: both
-        font-size: 32px    
+        font-size: 32px
 </style>

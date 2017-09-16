@@ -80,7 +80,6 @@
       this.$http.get('/api/ratings').then((res) => {
         res = res.body;
         if (res.errno === ERR_OK) {
-          console.log('hello');
           this.ratings = res.data;
           this.$nextTick(() => {
             this._initScroll();
@@ -90,11 +89,9 @@
     },
     methods: {
       _initScroll () {
-        console.log(this.$refs.ratings);
         this.scroll = new BScroll(this.$refs.ratings, {
           click: true
         });
-        console.log('haha');
       },
       switchRating (type) {
         this.ratingChoose = type;

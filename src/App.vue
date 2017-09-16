@@ -12,7 +12,9 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -50,11 +52,13 @@ export default {
     .tab-item
       flex: 1
       text-align: center
-      & > a
+      &>a
         display: block
         text-decoration: none
         font-size: 14px
+        font-weight: 700
         color: rgb(77,85,93)
-      & >.router-link-active
+      &>.router-link-active
         text-decoration: none
+        color: rgb(240,20,20)
 </style>

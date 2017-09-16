@@ -92,6 +92,7 @@
     },
     methods: {
       _initScroll () {
+        console.log('seller:' + this.$refs.seller);
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.seller, {
             click: true
@@ -107,7 +108,6 @@
           let width = (picWidth + margin) * this.seller.pics.length - margin;
           var picsList = this.$refs.picsList;
           picsList.style.width = width + 'px';
-          console.log(picsList.width);
           if (!this.picScroll) {
             this.scroll = new BScroll(this.$refs.pics, {
               scrollX: true,
