@@ -1,10 +1,14 @@
 <template>
   <div class="cart-control">
     <transition name="move">
-      <div class="cart-decrease" v-show="food.count>0" @click.stop.prevent="cartDecrease($event)"><span class="inner">-</span></div>
+      <div class="cart-decrease" v-show="food.count>0" @click.stop.prevent="cartDecrease($event)">
+        <span class="inner"><i class="icon-remove_circle_outline"></i></span>
+      </div>
     </transition>
       <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-      <div class="cart-increase" @click.stop.prevent="cartIncrease($event)">+</div>
+      <div class="cart-increase" @click.stop.prevent="cartIncrease($event)">
+        <i class="icon-add_circle"></i>
+      </div>
   </div>
 </template>
 
@@ -50,12 +54,9 @@
       height: 24px
       padding-bottom: 2px
       line-height: 24px
-      border: 2px solid rgb(0,160,220)
-      border-radius: 50%
-      background: #fff
-      text-align: center
       transform: translate3d(0,0,0)
       transition: all 0.3s linear
+      color: rgb(0,160,220)
       &.move-enter-active,&.move-leave-active
         transition: all 0.3s linear
       &.move-enter, &.move-leave-to
@@ -74,7 +75,7 @@
       display: inline-block
       width: 24px
       height: 30px
-      line-height: 30px
+      line-height: 24px
       vertical-align: top
       font-size: 10px
       color: rgb(147,153,159)
@@ -86,11 +87,8 @@
       height: 24px
       line-height: 24px
       padding-bottom: 2px
-      border: 2px solid rgb(0,160,220)
-      border-radius: 50%
-      background: rgb(0,160,220)
       text-align: center
       font-size: 24px
       font-weight: 700
-      color: #fff
+      color: rgb(0,160,220)
 </style>

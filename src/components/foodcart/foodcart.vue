@@ -4,7 +4,7 @@
       <div class="content-left">
         <div class="icon-wrapper">
           <div class="cart-icon" :class="{'highlight':totalCount>0}">
-            <span class="icon-shopping-cart" :class="{'highlight':totalCount>0}"></span>
+            <i class="icon-shopping_cart" :class="{'highlight':totalCount>0}"></i>
             <div class="num-in-cart" v-show="totalCount>0">{{totalCount}}</div>
           </div>
         </div>
@@ -170,8 +170,8 @@
             text-align: center
             &.highlight
               background: rgb(0,160,220)
-            .icon-shopping-cart
-              line-height: 24px
+            .icon-shopping_cart
+              line-height: 44px
               color: rgba(255,255,255,0.4)
               font-size: 24px
               &.highlight
