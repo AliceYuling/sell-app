@@ -33,6 +33,7 @@
         } else {
           this.food.count += 1;
         }
+        this.$emit('add', event.target);
       },
       cartDecrease (event) {
         if (!event._constructed) {
@@ -55,26 +56,23 @@
       padding-bottom: 2px
       line-height: 24px
       transform: translate3d(0,0,0)
-      transition: all 0.3s linear
       color: rgb(0,160,220)
-      &.move-enter-active,&.move-leave-active
-        transition: all 0.3s linear
-      &.move-enter, &.move-leave-to
-        opacity: 0
       .inner
         font-size: 24px
         font-weight: 700
         color: rgb(0,160,220)
-        transition: all 0.3s linear
-        transform: translate3d(0,0,0)
-        &.move-enter-active,&.move-leave-active
-          transition: all 0.3s linear
-        &.move-enter, &.move-leave-to
-          opacity: 0
+        transform: rotate(90deg)
+      &.move-enter, &.move-leave-active
+        opacity: 0
+        transform: translate3d(24px,0,0)
+        .inner
+          transform: rotate(90deg)
+      &.move-enter-active,&.move-leave-active
+        transition: all 2s linear
     .cart-count
       display: inline-block
       width: 24px
-      height: 30px
+      height: 24px
       line-height: 24px
       vertical-align: top
       font-size: 10px

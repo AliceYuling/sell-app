@@ -14,6 +14,13 @@
         <div class="description">
           另需配送费￥{{deliveryPrice}}元
         </div>
+        <div class="ball-container">
+          <div class="ball" v-for="ball in balls" v-show="ball.show">
+            <transition @before-enter="beforeDrop()" @enter="dropping(el,done)" @afterEnter="afterDrop(el)">
+              <div class="inner"></div>
+            </transition>
+          </div>
+        </div>
       </div>
       <div class="content-right">
         <span class="pay-desc" :class="{'pay-enough':payEnough === 1, 'not-enough':payEnough===0}">{{payDescription}}</span>
@@ -46,7 +53,25 @@
     data () {
       return {
         payEnough: 0,
-        fold: true
+        fold: true,
+        balls: [
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          }
+        ],
+        dropBalls: []
       };
     },
     props: {
@@ -131,6 +156,40 @@
         this.selectedFoods.forEach((food) => {
           food.count = 0;
         });
+      },
+      drop (el) {
+        for (let i = 0; i < this.balls.length; i++) {
+          let ball = this.balls[i];
+          if (ball.show) {
+            ball.el = el;
+            this.dropBalls.push(ball);
+          }
+        }
+      },
+      beforeDrop: function (el) {
+        let count = this.balls.length;
+        while (count--) {
+          let ball = this.balls[count];
+          if (ball.show) {
+            let rect = ball.el.getBoundingClientRect();
+            let x = rect.left - 32;
+            let y = -(window.innerHeight - rect.top - 24);
+            el.style.display = '';
+            el.style.transform = `translate3d(${x}px,${y}px,0)`;
+          }
+        }
+      },
+      dropping: function (el, done) {
+        this.$nextTick(() => {
+          el.style.transform = 'translate3d(0,0,0)';
+        });
+      },
+      afterDrop (el) {
+        let ball = this.dropBalls.shift();
+        if (ball) {
+          ball.show = false;
+          el.style.display = 'none';
+        }
       }
     }
   };
@@ -201,6 +260,22 @@
           font-size: 12px
           padding-left: 12px
           border-left: 1px solid rgba(255,255,255,0.1)
+        .ball-container
+          position: absolute
+          left: 32px
+          bottom: 24px
+          width: 18px
+          height: 168px
+          .balls
+            .ball
+              display: inline-block
+              width: 18px
+              height: 18px
+              .inner
+                width: 18px
+                height: 18px
+                border-radius: 50%
+                background: rgb(0,160,220)
       .content-right
         flex: 0 0 105px
         width: 105px

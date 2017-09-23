@@ -23,7 +23,7 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 
 //obtain data from json
-var appData = require('../data.json');
+var appData = require('../src/data.json');
 var seller = appData.seller;
 var goods = appData.goods;
 var ratings = appData.ratings;

@@ -30,7 +30,7 @@
                   </div>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <cartcontrol :food="food"></cartcontrol>
+                  <cartcontrol :food="food" @add="addFood"></cartcontrol>
                 </div> 
               </li>
             </ul>
@@ -125,6 +125,11 @@
         }
         this.targetFood = food;
         this.$refs.foodDetail.show();
+      },
+      addFood (target) {
+        this.$nextTick(() => {
+          this.$refs.foodcart.drop(target);
+        });
       }
     },
     computed: {
