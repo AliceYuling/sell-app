@@ -2,7 +2,7 @@
   <div class="cart-control">
     <transition name="move">
       <div class="cart-decrease" v-show="food.count>0" @click.stop.prevent="cartDecrease($event)">
-        <span class="inner"><i class="icon-remove_circle_outline"></i></span>
+        <span class="inner icon-remove_circle_outline"></span>
       </div>
     </transition>
       <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
@@ -55,20 +55,24 @@
       height: 24px
       padding-bottom: 2px
       line-height: 24px
+      opacity: 1
       transform: translate3d(0,0,0)
       color: rgb(0,160,220)
       .inner
+        display: inline-block
         font-size: 24px
         font-weight: 700
         color: rgb(0,160,220)
-        transform: rotate(90deg)
-      &.move-enter, &.move-leave-active
+        transform: rotate(0)
+      &.move-enter, &.move-leave-to
         opacity: 0
         transform: translate3d(24px,0,0)
         .inner
-          transform: rotate(90deg)
-      &.move-enter-active,&.move-leave-active
-        transition: all 2s linear
+          transform: rotate(180deg)
+      &.move-enter-active, &.move-leave-active
+        transition: all 0.4s linear
+        .inner
+          transition: all 0.4s linear
     .cart-count
       display: inline-block
       width: 24px

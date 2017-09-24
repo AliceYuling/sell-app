@@ -15,9 +15,11 @@
           另需配送费￥{{deliveryPrice}}元
         </div>
         <div class="ball-container">
-          <div class="ball" v-for="ball in balls" v-show="ball.show">
-            <transition @before-enter="beforeDrop()" @enter="dropping(el,done)" @afterEnter="afterDrop(el)">
-              <div class="inner"></div>
+          <div class="balls" v-for="ball in balls">
+            <transition name="drop" @before-enter="beforeDrop" @enter="dropping" @afterEnter="afterDrop">
+              <div class="ball" v-show="ball.show">
+                <div class="inner inner-hook"></div>
+              </div>
             </transition>
           </div>
         </div>
@@ -158,15 +160,19 @@
         });
       },
       drop (el) {
+        console.log('drop');
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i];
-          if (ball.show) {
+          if (!ball.show) {
+            ball.show = true;
             ball.el = el;
             this.dropBalls.push(ball);
           }
         }
+        console.log(this.balls);
       },
-      beforeDrop: function (el) {
+      beforeDrop (el) {
+        console.log('before drop');
         let count = this.balls.length;
         while (count--) {
           let ball = this.balls[count];
@@ -175,13 +181,19 @@
             let x = rect.left - 32;
             let y = -(window.innerHeight - rect.top - 24);
             el.style.display = '';
-            el.style.transform = `translate3d(${x}px,${y}px,0)`;
+            el.style.transform = `translate3d(${x}px,0,0)`;
+            let inner = el.getElementsByClassName('inner-hook')[0];
+            inner.style.transform = `translate3d(0,${y},0)`;
           }
         }
       },
       dropping: function (el, done) {
+        console.log('dropping');
         this.$nextTick(() => {
           el.style.transform = 'translate3d(0,0,0)';
+          let inner = el.getElementsByClassName('inner-hook')[0];
+          inner.style.transform = 'translate3d(0,0,0)';
+          inner.addEventListener('transitioned', done);
         });
       },
       afterDrop (el) {
@@ -261,17 +273,16 @@
           padding-left: 12px
           border-left: 1px solid rgba(255,255,255,0.1)
         .ball-container
-          position: absolute
-          left: 32px
-          bottom: 24px
           width: 18px
           height: 168px
           .balls
             .ball
-              display: inline-block
+              position: absolute
+              left: 32px
+              bottom: 24px
               width: 18px
               height: 18px
-              .inner
+              .inner.inner-hook
                 width: 18px
                 height: 18px
                 border-radius: 50%
