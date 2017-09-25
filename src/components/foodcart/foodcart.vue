@@ -16,7 +16,7 @@
         </div>
         <div class="ball-container">
           <div class="balls" v-for="ball in balls">
-            <transition name="drop" @before-enter="beforeDrop" @enter="dropping" @afterEnter="afterDrop">
+            <transition name="drop" @before-enter="beforeDrop" @enter="dropping" @after-enter="afterDrop">
               <div class="ball" v-show="ball.show">
                 <div class="inner inner-hook"></div>
               </div>
@@ -57,6 +57,9 @@
         payEnough: 0,
         fold: true,
         balls: [
+          {
+            show: false
+          },
           {
             show: false
           },
@@ -160,30 +163,36 @@
         });
       },
       drop (el) {
-        console.log('drop');
-        for (let i = 0; i < this.balls.length; i++) {
-          let ball = this.balls[i];
-          if (!ball.show) {
-            ball.show = true;
-            ball.el = el;
-            this.dropBalls.push(ball);
-          }
+        let rect = el.getBoundingClientRect();
+        let y = window.innerHeight - rect.top - 24;
+        let ballIndex = this.balls.length - 1 - Math.floor(y / 96);
+        console.log(ballIndex);
+        let ball = this.balls[ballIndex];
+        console.log(ball);
+        if (!ball.show) {
+          ball.show = true;
+          this.balls[ballIndex].show = true;
+          console.log(this.balls);
+          ball.el = el;
+          this.dropBalls.push(ball);
+          console.log(this.dropBalls[this.dropBalls.length - 1].show);
         }
-        console.log(this.balls);
       },
-      beforeDrop (el) {
-        console.log('before drop');
+      beforeDrop: function (el) {
+        console.log('befor drop');
         let count = this.balls.length;
         while (count--) {
           let ball = this.balls[count];
           if (ball.show) {
+            console.log(count);
             let rect = ball.el.getBoundingClientRect();
             let x = rect.left - 32;
             let y = -(window.innerHeight - rect.top - 24);
+            console.log('x:' + x + ',y:' + y);
             el.style.display = '';
             el.style.transform = `translate3d(${x}px,0,0)`;
             let inner = el.getElementsByClassName('inner-hook')[0];
-            inner.style.transform = `translate3d(0,${y},0)`;
+            inner.style.transform = `translate3d(0,${y}px,0)`;
           }
         }
       },
@@ -193,10 +202,11 @@
           el.style.transform = 'translate3d(0,0,0)';
           let inner = el.getElementsByClassName('inner-hook')[0];
           inner.style.transform = 'translate3d(0,0,0)';
-          inner.addEventListener('transitioned', done);
+          inner.addEventListener('transitionend', done);
         });
       },
-      afterDrop (el) {
+      afterDrop: function (el) {
+        console.log('afterDrop');
         let ball = this.dropBalls.shift();
         if (ball) {
           ball.show = false;
@@ -282,6 +292,14 @@
               bottom: 24px
               width: 18px
               height: 18px
+              &.drop-enter-active
+                transition: all 1s linear
+                .inner-hook
+                  transition: all 1s ease-in
+              &.drop-enter-to
+                opacity: 0
+                .inner-hook
+                  opacity: 0
               .inner.inner-hook
                 width: 18px
                 height: 18px
